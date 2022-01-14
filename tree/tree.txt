@@ -1,0 +1,7 @@
+non-linear data structure
+
+represent relationship between nodes
+
+collection of entities called nodes
+
+nodes are connected by edges
