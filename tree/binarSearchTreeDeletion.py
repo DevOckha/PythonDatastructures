@@ -61,7 +61,7 @@ class BST: # BST adından bir class oluşturuyoruz.
         print(self.key)
 
 
-    def delete(self, data):# silmek istenilen değeri parametre olarak alan bir method yazıyoruz
+    def delete(self, data, curr):# silmek istenilen değeri parametre olarak alan bir method yazıyoruz
 
         if self.key is None:# root değerinin boş olup olmadığını kontrol ediyoruz boş ise ağacın boş olduğuğunu yazdırıyoruz
         
@@ -73,7 +73,7 @@ class BST: # BST adından bir class oluşturuyoruz.
         
             if self.lchild:# eğer root'dan  küçük bir değer ise solaltağacımızda bir değer olup olmadığını kontrol ediyoruz. eğer değer varsa bu if bloğuna giriyoruz
         
-                self.lchild = self.lchild.delete(data) # burada ise solatlağacımız üzerinden delete fonksiyonu çağırıp solatlağacımız üzerinde dolaşıyoruz 
+                self.lchild = self.lchild.delete(data, curr) # burada ise solatlağacımız üzerinden delete fonksiyonu çağırıp solatlağacımız üzerinde dolaşıyoruz 
         
             else:# eğer solaltağacımızda bir değer yoksa silmek istenilen değerin ağacımızda olmadığını yazdırıyoruz
         
@@ -83,7 +83,7 @@ class BST: # BST adından bir class oluşturuyoruz.
         
             if self.rchild:#eğer root'dan  büyük  bir değer ise sağaltağacımızda bir değer olup olmadığını kontrol ediyoruz. eğer değer varsa bu if bloğuna giriyoruz
         
-                self.rchild = self.rchild.delete(data)#burada ise sağatlağacımız üzerinden delete fonksiyonu çağırıp solatlağacımız üzerinde dolaşıyoruz
+                self.rchild = self.rchild.delete(data, curr)#burada ise sağatlağacımız üzerinden delete fonksiyonu çağırıp solatlağacımız üzerinde dolaşıyoruz
         
             else:# eğer sağaltağacımızda bir değer yoksa silmek istenilen değerin ağacımızda olmadığını yazdırıyoruz
         
@@ -95,7 +95,12 @@ class BST: # BST adından bir class oluşturuyoruz.
             if self.lchild is None:
         
                 temp = self.rchild
-        
+                if data == curr:
+                    self.key = temp.key
+                    self.lchild = temp.lchild
+                    self.rchild = temp.rchild
+                    temp = None
+                    return
                 self = None
         
                 return temp
@@ -103,7 +108,12 @@ class BST: # BST adından bir class oluşturuyoruz.
             if self.rchild is None:
         
                 temp = self.lchild
-        
+                if data == curr:
+                    self.key = temp.key
+                    self.lchild = temp.lchild
+                    self.rchild = temp.rchild
+                    temp = None
+                    return
                 self = None
         
                 return temp
@@ -120,14 +130,25 @@ class BST: # BST adından bir class oluşturuyoruz.
         
         return self
 
+
+def count(node):
+    if node is None:
+        return 0 
+    return 1 + count(node.lchild) + count(node.rchild)
 root = BST(10)
 
-list1 = [20, 4, 50 ,4 ,1 ,3 ,5, 6]
+list1 = [1,2]
 
 for i in list1:
     root.insert(i)
+print(count(root))
+print('Preorder:')    
 root.preoder()
+if count(root) > 1:
 
-root.delete(6)
+    root.delete(10, root.key)
+else:
+    print("Can't perform deletion operation!")
+print()
 print('after deleting:')
 root.preoder()
