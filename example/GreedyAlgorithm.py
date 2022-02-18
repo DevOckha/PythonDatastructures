@@ -63,7 +63,7 @@ def name(algorithm): return algorithm.__name__.replace('_tsp', '')
 def greedy_algorithm(cities, start=None):
     C = start or first(cities)
     tour = [C]
-    unvisited = set(cities - C)
+    unvisited = set(cities - {C})
     while unvisited:
         C = nearest_neighbor(C, unvisited)
         tour.append(C)
